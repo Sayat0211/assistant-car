@@ -159,18 +159,15 @@ def get_best_match(query, df, tfidf, matrix):
     similarities = cosine_similarity(query_vec, matrix).flatten()
     df['Similarity'] = similarities
     return df.loc[df['Similarity'].idxmax()]
-
-# === Interface ===
 st.title("🚘 Car Assistant")
 
 tabs = st.tabs(["🔍 Match by Description", "💰 Estimate Price","📆 Credit Calc"])
 
 # === Tab 1 ===
 with tabs[0]:
-    st.markdown("### 🧾 Describe your dream car and let us recommend fuel type, transmission, and body type:")
+    st.markdown("### 🧾 Опишите автомобиль своей мечты и позвольте нам порекомендовать вам тип топлива, трансмиссию и тип кузова::")
     #default_text = "I want a small city car"
-    user_input = st.text_area("💬 Your request:")
-
+    user_input = st.text_area("💬 Ваш запрос:")
     if st.button("✨ Find Best Match", key="desc_button"):
         if user_input.strip() == "":
             st.warning("🚨 Please enter a description.")
