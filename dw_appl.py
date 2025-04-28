@@ -167,24 +167,18 @@ tabs = st.tabs(["🔍 Match by Description", "💰 Estimate Price","📆 Credit 
 
 # === Tab 1 ===
 with tabs[0]:
-    st.markdown("### 🧾 Опишите автомобиль своей мечты и позвольте нам порекомендовать вам тип топлива, трансмиссию и тип кузова:")
-    #default_text = "I want a small city car"
-    user_input = st.text_area("💬 Ваш запрос:")
+if st.button("✨ Find Best Match", key="desc_button"):
+    if user_input.strip() == "":
+        st.warning("🚨 Please enter a description.")
+    else:
+        best_fuel = get_best_match(user_input, fuel_df, fuel_tfidf, fuel_matrix)
+        best_transmission = get_best_match(user_input, transmission_df, trans_tfidf, trans_matrix)
+        best_car_type = get_best_match(user_input, car_type_df, body_tfidf, body_matrix)
 
-    if st.button("✨ Find Best Match", key="desc_button"):
-        if user_input.strip() == "":
-            st.warning("🚨 Please enter a description.")
-        else:
-            corrected_query = correct_text(user_input)
-            best_fuel = get_best_match(corrected_query, fuel_df, fuel_tfidf, fuel_matrix)
-            best_transmission = get_best_match(corrected_query, transmission_df, trans_tfidf, trans_matrix)
-            best_car_type = get_best_match(corrected_query, car_type_df, body_tfidf, body_matrix)
-
-            st.markdown("### ✅ Suggested Specs:")
-            st.markdown(f"**⛽ Fuel Type:** `{best_fuel['Type']}` — {best_fuel['Description']}")
-            st.markdown(f"**⚙️ Transmission:** `{best_transmission['Type']}` — {best_transmission['Description']}")
-            st.markdown(f"**🚗 Car Body:** `{best_car_type['Type']}` — {best_car_type['Description']}")
-
+        st.markdown("### ✅ Suggested Specs:")
+        st.markdown(f"**⛽ Fuel Type:** `{best_fuel['Type']}` — {best_fuel['Description']}")
+        st.markdown(f"**⚙️ Transmission:** `{best_transmission['Type']}` — {best_transmission['Description']}")
+        st.markdown(f"**🚗 Car Body:** `{best_car_type['Type']}` — {best_car_type['Description']}")
 # === Tab 2 ===
 with tabs[1]:
     st.markdown("### 📊 Enter your car’s features to get a price estimate:")
